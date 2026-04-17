@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YouTube 임베드 변환기</title>
+<style>
+  :root {
+    --bg: #f6f7fb;
+    --card: #ffffff;
+    --border: #e3e6ef;
+    --text: #1f2330;
+    --muted: #6b7280;
+    --primary: #3b82f6;
+    --primary-hover: #2563eb;
+    --accent: #ef4444;
+    --code-bg: #0f172a;
+    --code-text: #e2e8f0;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 32px 16px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans KR", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+  }
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  h1 {
+    margin: 0 0 8px;
+    font-size: 28px;
+  }
+  .subtitle {
+    color: var(--muted);
+    margin-bottom: 24px;
+    font-size: 14px;
+  }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  }
+  .card h2 {
+    margin: 0 0 16px;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .step-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--primary);
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+  }
+  label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--text);
+  }
+  textarea, input[type="text"], input[type="number"] {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: "SFMono-Regular", Consolas, monospace;
+    color: var(--text);
+    background: #fff;
+    transition: border-color 0.15s;
+  }
+  textarea:focus, input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+  }
+  textarea {
+    min-height: 110px;
+    resize: vertical;
+  }
+  .row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  .info-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 18px;
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 10px;
+  }
+  .info-row b {
+    color: var(--text);
+    font-weight: 600;
+  }
+  .info-row .pill {
+    background: #eef2ff;
+    color: #3730a3;
+    padding: 2px 10px;
+    border-radius: 999px;
+    font-weight: 500;
+  }
+  .error {
+    color: var(--accent);
+    font-size: 13px;
+    margin-top: 8px;
+    display: none;
+  }
+  .error.show { display: block; }
+  .output-wrap {
+    position: relative;
+  }
+  pre.output {
+    background: var(--code-bg);
+    color: var(--code-text);
+    padding: 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.55;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    word-break: break-all;
+    margin: 0;
+    min-height: 80px;
+  }
+  .copy-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #e2e8f0;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .copy-btn:hover { background: rgba(255, 255, 255, 0.2); }
+  .copy-btn.copied { background: #10b981; border-color: #10b981; }
+  .note {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 6px;
+  }
+  .lock-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 6px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .lock-toggle input { accent-color: var(--primary); }
+  @media (max-width: 600px) {
+    .row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>YouTube 임베드 변환기</h1>
+  <p class="subtitle">유튜브 소스 코드를 붙여넣으면 자동 재생/반복 포맷으로 변환해 줍니다.</p>
+
+  <div class="card">
+    <h2><span class="step-num">1</span>유튜브 소스 코드 붙여넣기</h2>
+    <label for="inputCode">복사한 &lt;iframe&gt; 코드</label>
+    <textarea id="inputCode" placeholder='예) <iframe width="478" height="849" src="https://www.youtube.com/embed/z4a_sGDFmAA" title="..." ...></iframe>'></textarea>
+    <div class="error" id="errorMsg">올바른 YouTube iframe 코드를 찾지 못했어요.</div>
+    <div class="info-row" id="infoRow" style="display:none;">
+      <span><b>Title:</b> <span id="videoTitle">-</span></span>
+      <span><b>Video ID:</b> <span class="pill" id="videoId">-</span></span>
+      <span><b>원본 크기:</b> <span id="origSize">-</span></span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><span class="step-num">2</span>사이즈 설정</h2>
+    <div class="row">
+      <div>
+        <label for="widthInput">가로 (px)</label>
+        <input type="number" id="widthInput" value="780" min="1">
+        <p class="note">기본값 780. 수정하면 세로가 비율에 맞게 자동 계산됩니다.</p>
+      </div>
+      <div>
+        <label for="heightInput">세로 (px)</label>
+        <input type="number" id="heightInput" min="1">
+        <label class="lock-toggle">
+          <input type="checkbox" id="ratioLock" checked>
+          가로세로 비율 유지
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><span class="step-num">3</span>변환된 소스 코드</h2>
+    <div class="output-wrap">
+      <button class="copy-btn" id="copyBtn" type="button">복사</button>
+      <pre class="output" id="outputCode">먼저 1번 입력란에 iframe 코드를 붙여넣어 주세요.</pre>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  const $input = document.getElementById('inputCode');
+  const $width = document.getElementById('widthInput');
+  const $height = document.getElementById('heightInput');
+  const $ratioLock = document.getElementById('ratioLock');
+  const $output = document.getElementById('outputCode');
+  const $copyBtn = document.getElementById('copyBtn');
+  const $error = document.getElementById('errorMsg');
+  const $infoRow = document.getElementById('infoRow');
+  const $videoTitle = document.getElementById('videoTitle');
+  const $videoId = document.getElementById('videoId');
+  const $origSize = document.getElementById('origSize');
+
+  const DEFAULT_WIDTH = 780;
+  const FALLBACK_RATIO = 9 / 16;
+
+  const state = {
+    videoId: '',
+    title: '',
+    origWidth: 0,
+    origHeight: 0,
+    ratio: FALLBACK_RATIO,
+  };
+
+  function extractVideoId(src) {
+    if (!src) return '';
+    try {
+      const url = new URL(src, 'https://www.youtube.com');
+      const embedMatch = url.pathname.match(/\/embed\/([A-Za-z0-9_-]{6,})/);
+      if (embedMatch) return embedMatch[1];
+      if (url.hostname.includes('youtu.be')) {
+        return url.pathname.replace(/^\//, '').split('/')[0] || '';
+      }
+      const v = url.searchParams.get('v');
+      if (v) return v;
+    } catch (_) {}
+    const m = src.match(/(?:youtube\.com\/(?:embed|v|shorts)\/|youtu\.be\/|[?&]v=)([A-Za-z0-9_-]{6,})/);
+    return m ? m[1] : '';
+  }
+
+  function parseIframe(text) {
+    if (!text || !text.trim()) return null;
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(text, 'text/html');
+    const iframe = doc.querySelector('iframe');
+    if (!iframe) return null;
+    const src = iframe.getAttribute('src') || '';
+    const videoId = extractVideoId(src);
+    if (!videoId) return null;
+    const width = parseInt(iframe.getAttribute('width'), 10);
+    const height = parseInt(iframe.getAttribute('height'), 10);
+    return {
+      videoId,
+      title: iframe.getAttribute('title') || '',
+      width: Number.isFinite(width) && width > 0 ? width : 0,
+      height: Number.isFinite(height) && height > 0 ? height : 0,
+    };
+  }
+
+  function buildOutput() {
+    if (!state.videoId) {
+      $output.textContent = '먼저 1번 입력란에 iframe 코드를 붙여넣어 주세요.';
+      return;
+    }
+    const w = Math.max(1, parseInt($width.value, 10) || DEFAULT_WIDTH);
+    const h = Math.max(1, parseInt($height.value, 10) || Math.round(w * state.ratio));
+    const src = `https://www.youtube.com/embed/?loop=1&amp;autoplay=1&amp;mute=1&amp;playlist=${state.videoId}`;
+    $output.textContent =
+      `<p style="text-align: center;">` +
+      `<iframe src="${src}" width="${w}" height="${h}" frameborder="0" allowfullscreen="allowfullscreen">` +
+      `</iframe></p>`;
+  }
+
+  function updateInfoUI() {
+    if (!state.videoId) {
+      $infoRow.style.display = 'none';
+      return;
+    }
+    $infoRow.style.display = '';
+    $videoTitle.textContent = state.title || '(제목 없음)';
+    $videoId.textContent = state.videoId;
+    $origSize.textContent = state.origWidth && state.origHeight
+      ? `${state.origWidth} × ${state.origHeight}`
+      : '(지정 없음)';
+  }
+
+  function onInputChange() {
+    const parsed = parseIframe($input.value);
+    if (!parsed) {
+      state.videoId = '';
+      state.title = '';
+      state.origWidth = 0;
+      state.origHeight = 0;
+      state.ratio = FALLBACK_RATIO;
+      const hasText = $input.value.trim().length > 0;
+      $error.classList.toggle('show', hasText);
+      updateInfoUI();
+      buildOutput();
+      return;
+    }
+    $error.classList.remove('show');
+    state.videoId = parsed.videoId;
+    state.title = parsed.title;
+    state.origWidth = parsed.width;
+    state.origHeight = parsed.height;
+    state.ratio = (parsed.width > 0 && parsed.height > 0)
+      ? parsed.height / parsed.width
+      : FALLBACK_RATIO;
+    updateInfoUI();
+    const w = parseInt($width.value, 10) || DEFAULT_WIDTH;
+    $width.value = w;
+    $height.value = Math.round(w * state.ratio);
+    buildOutput();
+  }
+
+  function onWidthChange() {
+    if (!state.videoId) { buildOutput(); return; }
+    if ($ratioLock.checked) {
+      const w = parseInt($width.value, 10);
+      if (Number.isFinite(w) && w > 0) {
+        $height.value = Math.round(w * state.ratio);
+      }
+    }
+    buildOutput();
+  }
+
+  function onHeightChange() {
+    if (!state.videoId) { buildOutput(); return; }
+    if ($ratioLock.checked) {
+      const h = parseInt($height.value, 10);
+      if (Number.isFinite(h) && h > 0 && state.ratio > 0) {
+        $width.value = Math.round(h / state.ratio);
+      }
+    }
+    buildOutput();
+  }
+
+  async function onCopy() {
+    const text = $output.textContent;
+    if (!text || !state.videoId) return;
+    try {
+      await navigator.clipboard.writeText(text);
+    } catch (_) {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); } catch (__) {}
+      document.body.removeChild(ta);
+    }
+    $copyBtn.textContent = '복사됨!';
+    $copyBtn.classList.add('copied');
+    setTimeout(() => {
+      $copyBtn.textContent = '복사';
+      $copyBtn.classList.remove('copied');
+    }, 1500);
+  }
+
+  $input.addEventListener('input', onInputChange);
+  $width.addEventListener('input', onWidthChange);
+  $height.addEventListener('input', onHeightChange);
+  $copyBtn.addEventListener('click', onCopy);
+})();
+</script>
+</body>
+</html>
