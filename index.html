@@ -342,7 +342,7 @@
       <span class="step-num">1</span>코드 붙여넣기
       <button type="button" class="help-btn" id="helpBtn" aria-label="코드 복사 방법 보기" title="어떻게 복사하나요?">?</button>
     </h2>
-    <textarea id="inputCode" placeholder='&lt;iframe width=&quot;1085&quot; height=&quot;1133&quot; src=&quot;https://www.youtube.com/embed/wrAA5TeHZos&quot; title=&quot;보행기 5&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&quot; referrerpolicy=&quot;strict-origin-when-cross-origin&quot; allowfullscreen&gt;&lt;/iframe&gt;'></textarea>
+    <textarea id="inputCode" placeholder='&lt;iframe width=&quot;1085&quot; height=&quot;1133&quot; src=&quot;...wrAA5TeHZos&quot;...&gt;&lt;/iframe&gt;'></textarea>
     <div class="error" id="errorMsg">유튜브 코드를 못 찾았어요.</div>
     <div class="info-row" id="infoRow" style="display:none;">
       <span><b>제목</b> <span id="videoTitle">-</span></span>
@@ -357,7 +357,7 @@
       <div>
         <label for="widthInput">가로 (px)</label>
         <input type="number" id="widthInput" value="780" min="1">
-        <p class="note">기본 780. 쿠팡 상세페이지 기준.</p>
+        <p class="note">쿠팡 상세페이지 기본 너비는 780. 세로는 영상 비율에 맞춰 자동 계산돼요.</p>
       </div>
       <div>
         <label for="heightInput">세로 (px)</label>
@@ -368,10 +368,9 @@
         </label>
       </div>
     </div>
-    <div class="presets" role="group" aria-label="프리셋">
-      <button type="button" class="preset-btn" data-w="780" data-h="439">가로 16:9<span class="preset-size">780×439</span></button>
-      <button type="button" class="preset-btn" data-w="780" data-h="585">4:3<span class="preset-size">780×585</span></button>
-      <button type="button" class="preset-btn" data-w="500" data-h="889">세로·쇼츠<span class="preset-size">500×889</span></button>
+    <div class="presets" role="group" aria-label="가로 프리셋">
+      <button type="button" class="preset-btn" data-w="780">가로 780<span class="preset-size">쿠팡 기본</span></button>
+      <button type="button" class="preset-btn" data-w="500">가로 500<span class="preset-size">좁게</span></button>
     </div>
   </section>
 
@@ -379,7 +378,7 @@
     <h2 id="step3"><span class="step-num">3</span>결과 코드</h2>
     <div class="output-wrap">
       <button class="copy-btn" id="copyBtn" type="button">복사</button>
-      <pre class="output" id="outputCode">위에 코드를 붙여넣으면 여기에 결과가 떠요.</pre>
+      <pre class="output" id="outputCode"></pre>
     </div>
     <div class="next-step">
       <span>이 코드를 어디에, 어떻게 붙여넣나요?</span>
@@ -518,7 +517,7 @@
 
   function buildOutput() {
     if (!state.videoId) {
-      $output.textContent = '위에 코드를 붙여넣으면 여기에 결과가 떠요.';
+      $output.textContent = '';
       return;
     }
     const w = Math.max(1, parseInt($width.value, 10) || DEFAULT_WIDTH);
@@ -593,13 +592,12 @@
   }
 
   function onPreset(e) {
-    const btn = e.currentTarget;
-    const w = parseInt(btn.dataset.w, 10);
-    const h = parseInt(btn.dataset.h, 10);
-    if (!w || !h) return;
+    const w = parseInt(e.currentTarget.dataset.w, 10);
+    if (!w) return;
     $width.value = w;
-    $height.value = h;
-    state.ratio = h / w;
+    if (state.ratio > 0) {
+      $height.value = Math.round(w * state.ratio);
+    }
     buildOutput();
   }
 
