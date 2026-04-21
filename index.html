@@ -3,17 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>유튜브 임베드 변환기 | 쿠팡 상세페이지 자동재생 코드 | Video Embed</title>
+<title>[쿠팡용] 유튜브 임베드 변환기 | Video Embed</title>
 <meta name="description" content="유튜브 영상을 쿠팡 상세페이지용 자동재생·반복 코드로 바꿔주는 무료 도구. 쇼츠도 지원. 가입 없음.">
-<meta name="keywords" content="유튜브 임베드 변환기, 쿠팡 상세페이지 동영상, 쿠팡 유튜브 삽입, 유튜브 iframe, 자동재생 반복, 유튜브 쇼츠 임베드">
+<meta name="keywords" content="쿠팡용 유튜브 임베드, 유튜브 임베드 변환기, 쿠팡 상세페이지 동영상, 쿠팡 유튜브 삽입, 유튜브 iframe, 자동재생 반복, 유튜브 쇼츠 임베드">
 <meta name="author" content="Video Embed">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://video-embed.com/">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 
 <!-- Open Graph -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Video Embed">
-<meta property="og:title" content="유튜브 임베드 변환기 | 쿠팡 상세페이지 자동재생 코드">
+<meta property="og:title" content="[쿠팡용] 유튜브 임베드 변환기">
 <meta property="og:description" content="유튜브 영상을 쿠팡 상세페이지용 자동재생·반복 코드로 바꿔주는 무료 도구. 쇼츠도 지원.">
 <meta property="og:url" content="https://video-embed.com/">
 <meta property="og:image" content="https://video-embed.com/assets/og-image.svg">
@@ -21,7 +22,7 @@
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="유튜브 임베드 변환기 | 쿠팡 상세페이지 자동재생 코드">
+<meta name="twitter:title" content="[쿠팡용] 유튜브 임베드 변환기">
 <meta name="twitter:description" content="유튜브 영상을 쿠팡 상세페이지용 자동재생·반복 코드로 바꿔주는 무료 도구.">
 <meta name="twitter:image" content="https://video-embed.com/assets/og-image.svg">
 
@@ -41,11 +42,20 @@
     width: 22px;
     height: 22px;
     border-radius: 50%;
-    background: var(--text);
+    background: var(--primary);
     color: #fff;
     font-size: 12px;
     font-weight: 600;
     flex-shrink: 0;
+  }
+  .quick-link {
+    margin: -18px 0 28px;
+    font-size: 14px;
+    color: var(--muted);
+  }
+  .quick-link a {
+    color: var(--primary);
+    font-weight: 600;
   }
   label {
     display: block;
@@ -121,18 +131,22 @@
     position: absolute;
     top: 10px;
     right: 10px;
-    background: rgba(255, 255, 255, 0.1);
-    color: #e2e8f0;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    padding: 5px 11px;
+    background: var(--primary);
+    color: #fff;
+    border: 0;
+    padding: 8px 16px;
     border-radius: 6px;
-    font-size: 12px;
+    font-size: 13px;
+    font-weight: 700;
     cursor: pointer;
     font-family: inherit;
-    transition: background 0.15s;
+    transition: background 0.15s, transform 0.05s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.25);
   }
-  .copy-btn:hover { background: rgba(255, 255, 255, 0.2); }
-  .copy-btn.copied { background: var(--success); border-color: var(--success); }
+  .copy-btn:hover { background: var(--primary-hover); }
+  .copy-btn:active { transform: translateY(1px); }
+  .copy-btn.copied { background: var(--success); }
+  pre.output { padding-right: 96px; }
   .note { font-size: 12px; color: var(--muted); margin-top: 6px; }
   .lock-toggle {
     display: inline-flex;
@@ -165,6 +179,26 @@
   }
   .preset-btn:hover { background: var(--subtle); }
   .preset-btn .preset-size { color: var(--muted); font-size: 12px; margin-left: 4px; }
+
+  .next-step {
+    margin-top: 14px;
+    padding: 14px 18px;
+    border: 1px solid var(--border);
+    background: var(--subtle);
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    color: #333;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 10px;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .next-step a {
+    color: var(--primary);
+    font-weight: 700;
+    white-space: nowrap;
+  }
 
   /* ===== Help button + modal ===== */
   .card h2 .help-btn {
@@ -232,45 +266,40 @@
   }
   .modal-close:hover { color: var(--text); }
 
-  .modal-tabs {
-    display: flex;
-    border-bottom: 1px solid var(--border);
-  }
-  .modal-tab {
-    flex: 1;
-    background: none;
-    border: 0;
-    padding: 10px 12px;
-    font-size: 13px;
-    color: var(--muted);
-    cursor: pointer;
-    font-weight: 600;
-    border-bottom: 2px solid transparent;
-    margin-bottom: -1px;
-    font-family: inherit;
-  }
-  .modal-tab.active { color: var(--text); border-bottom-color: var(--text); }
-
   .modal-body {
-    padding: 18px;
+    padding: 18px 22px 22px;
     overflow-y: auto;
     flex: 1;
+    scroll-behavior: smooth;
   }
+  .modal-section {
+    margin: 20px 0 8px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--primary);
+    text-transform: none;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+  .modal-section:first-child { margin-top: 0; }
   .modal-step {
-    display: none;
+    margin-bottom: 18px;
   }
-  .modal-step.active { display: block; }
-  .modal-step h4 {
-    margin: 0 0 10px;
+  .modal-step h5 {
+    margin: 0 0 8px;
     font-size: 15px;
     font-weight: 600;
   }
   .modal-step p { margin: 0 0 10px; color: #333; font-size: 14px; }
   .modal-step img {
-    width: 100%;
+    display: block;
+    max-width: 320px;
+    max-height: 280px;
+    width: auto;
+    height: auto;
+    margin: 0 auto;
     border-radius: var(--radius-sm);
     border: 1px solid var(--border);
-    margin-top: 4px;
   }
   .modal-step .ph {
     padding: 28px 14px;
@@ -282,43 +311,6 @@
     font-size: 13px;
   }
 
-  .modal-foot {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 12px 18px;
-    border-top: 1px solid var(--border);
-    background: #fff;
-    gap: 10px;
-  }
-  .step-counter {
-    font-size: 13px;
-    color: var(--muted);
-  }
-  .nav-btns {
-    display: flex;
-    gap: 6px;
-  }
-  .nav-btn {
-    padding: 7px 14px;
-    border-radius: 6px;
-    border: 1px solid var(--border-strong);
-    background: #fff;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    font-family: inherit;
-    color: var(--text);
-  }
-  .nav-btn:hover:not(:disabled) { background: var(--subtle); }
-  .nav-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-  .nav-btn.primary {
-    background: var(--text);
-    color: #fff;
-    border-color: var(--text);
-  }
-  .nav-btn.primary:hover:not(:disabled) { background: #000; }
-
   @media (max-width: 640px) {
     .row { grid-template-columns: 1fr; }
   }
@@ -328,29 +320,29 @@
 
 <header class="site-header">
   <div class="header-inner">
-    <a href="/" class="brand">
-      <span class="brand-mark">▶</span>
-      <span class="brand-name">Video Embed</span>
+    <a href="/" class="brand" aria-label="Video Embed 홈">
+      <span class="brand-name"><span class="c1">V</span><span class="c2">i</span><span class="c3">d</span><span class="c4">e</span><span class="c5">o</span>&nbsp;<span class="c1">E</span><span class="c2">m</span><span class="c3">b</span><span class="c4">e</span><span class="c5">d</span></span>
     </a>
     <nav class="site-nav" aria-label="주요 메뉴">
       <a href="/">변환기</a>
       <a href="/guide.html">사용법</a>
       <a href="/about.html">소개</a>
-      <a href="mailto:Jundori1204@gmail.com">문의</a>
+      <a href="mailto:flqmsdhffkvm@gmail.com">문의</a>
     </nav>
   </div>
 </header>
 
 <main class="container page">
-  <h1 class="page-title">유튜브 임베드 변환기</h1>
+  <h1 class="page-title">[쿠팡용] 유튜브 임베드 변환기</h1>
   <p class="page-subtitle">유튜브 코드 → 쿠팡 상세페이지용 자동재생 코드.</p>
+  <p class="quick-link">어떻게 하나요? <a href="/guide.html">사용법 바로가기 →</a></p>
 
   <section class="card" aria-labelledby="step1">
     <h2 id="step1">
       <span class="step-num">1</span>코드 붙여넣기
       <button type="button" class="help-btn" id="helpBtn" aria-label="코드 복사 방법 보기" title="어떻게 복사하나요?">?</button>
     </h2>
-    <textarea id="inputCode" placeholder='유튜브 iframe 코드 또는 주소를 붙여넣어 주세요'></textarea>
+    <textarea id="inputCode" placeholder='&lt;iframe width=&quot;1085&quot; height=&quot;1133&quot; src=&quot;https://www.youtube.com/embed/wrAA5TeHZos&quot; title=&quot;보행기 5&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&quot; referrerpolicy=&quot;strict-origin-when-cross-origin&quot; allowfullscreen&gt;&lt;/iframe&gt;'></textarea>
     <div class="error" id="errorMsg">유튜브 코드를 못 찾았어요.</div>
     <div class="info-row" id="infoRow" style="display:none;">
       <span><b>제목</b> <span id="videoTitle">-</span></span>
@@ -389,59 +381,53 @@
       <button class="copy-btn" id="copyBtn" type="button">복사</button>
       <pre class="output" id="outputCode">위에 코드를 붙여넣으면 여기에 결과가 떠요.</pre>
     </div>
+    <div class="next-step">
+      <span>이 코드를 어디에, 어떻게 붙여넣나요?</span>
+      <a href="/guide.html#paste">쿠팡에 붙여넣는 법 →</a>
+    </div>
   </section>
 
-  <p style="text-align:center; margin: 28px 0 0; font-size: 13px; color: var(--muted);">
-    처음이세요? <a href="/guide.html">사용법 보기 →</a>
-  </p>
 </main>
 
-<!-- Help modal -->
+<!-- Help modal (scrollable) -->
 <div class="modal-overlay" id="helpModal" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
   <div class="modal">
     <div class="modal-head">
       <h3 id="helpTitle">유튜브 코드 복사하는 법</h3>
       <button type="button" class="modal-close" id="modalClose" aria-label="닫기">×</button>
     </div>
-    <div class="modal-tabs" role="tablist">
-      <button type="button" class="modal-tab active" data-mtab="normal" role="tab">일반 영상</button>
-      <button type="button" class="modal-tab" data-mtab="shorts" role="tab">쇼츠</button>
-    </div>
     <div class="modal-body">
-      <!-- Normal video steps -->
-      <div class="modal-step active" data-mgroup="normal" data-mstep="0">
-        <h4>1. 영상 아래 공유 버튼</h4>
+      <h4 class="modal-section">일반 영상</h4>
+
+      <div class="modal-step">
+        <h5>1. 영상 아래 공유 버튼</h5>
         <p>유튜브 영상 플레이어 하단의 <b>공유</b> 버튼을 눌러요.</p>
         <img src="/assets/guide/1.png" alt="공유 버튼" onerror="this.outerHTML='<div class=\'ph\'>이미지 준비 중</div>'">
       </div>
-      <div class="modal-step" data-mgroup="normal" data-mstep="1">
-        <h4>2. 퍼가기 선택</h4>
+
+      <div class="modal-step">
+        <h5>2. 퍼가기 선택</h5>
         <p>팝업에서 <b>&lt;/&gt; 퍼가기</b>를 눌러요.</p>
         <img src="/assets/guide/2.png" alt="퍼가기 선택" onerror="this.outerHTML='<div class=\'ph\'>이미지 준비 중</div>'">
       </div>
-      <div class="modal-step" data-mgroup="normal" data-mstep="2">
-        <h4>3. 복사 클릭</h4>
+
+      <div class="modal-step">
+        <h5>3. 복사 클릭</h5>
         <p>iframe 코드가 뜨면 오른쪽 아래 <b>복사</b>를 누르세요.</p>
         <img src="/assets/guide/3.png" alt="iframe 코드 복사" onerror="this.outerHTML='<div class=\'ph\'>이미지 준비 중</div>'">
       </div>
 
-      <!-- Shorts steps -->
-      <div class="modal-step" data-mgroup="shorts" data-mstep="0">
-        <h4>쇼츠: 영상 우클릭 → 소스 코드 복사</h4>
+      <h4 class="modal-section">쇼츠</h4>
+
+      <div class="modal-step">
+        <h5>영상 위 우클릭 → 소스 코드 복사</h5>
         <p>쇼츠는 공유 메뉴에 퍼가기가 없어요. 영상 위에서 <b>마우스 우클릭</b> → <b>소스 코드 복사</b>.</p>
         <img src="/assets/guide/4.png" alt="쇼츠 우클릭 메뉴" onerror="this.outerHTML='<div class=\'ph\'>이미지 준비 중</div>'">
       </div>
 
-      <p style="margin-top: 14px; padding: 10px 12px; background: var(--subtle); border-radius: 6px; font-size: 13px; color: #333;">
+      <p style="margin-top: 18px; padding: 12px 14px; background: var(--subtle); border-radius: 6px; font-size: 13px; color: #333;">
         <b>안 보이나요?</b> 유튜브 스튜디오 &gt; 콘텐츠 &gt; 영상 &gt; 더보기 &gt; <b>'퍼가기 허용'</b>이 켜져 있어야 해요.
       </p>
-    </div>
-    <div class="modal-foot">
-      <span class="step-counter" id="stepCounter">1 / 3</span>
-      <div class="nav-btns">
-        <button type="button" class="nav-btn" id="prevBtn">이전</button>
-        <button type="button" class="nav-btn primary" id="nextBtn">다음</button>
-      </div>
     </div>
   </div>
 </div>
@@ -453,10 +439,8 @@
       <a href="/privacy.html">개인정보처리방침</a>
       <span class="sep">·</span>
       <a href="/terms.html">이용약관</a>
-      <span class="sep">·</span>
-      <a href="mailto:Jundori1204@gmail.com">문의</a>
     </nav>
-    <p class="contact"><a href="mailto:Jundori1204@gmail.com">Jundori1204@gmail.com</a></p>
+    <p class="contact"><a href="mailto:flqmsdhffkvm@gmail.com">flqmsdhffkvm@gmail.com</a></p>
   </div>
 </footer>
 
@@ -646,45 +630,15 @@
   $copyBtn.addEventListener('click', onCopy);
   $presets.forEach(btn => btn.addEventListener('click', onPreset));
 
-  /* ===== Help modal ===== */
+  /* ===== Help modal (scrollable) ===== */
   const $helpBtn = document.getElementById('helpBtn');
   const $modal = document.getElementById('helpModal');
   const $close = document.getElementById('modalClose');
-  const $mTabs = document.querySelectorAll('.modal-tab');
-  const $mSteps = document.querySelectorAll('.modal-step');
-  const $prev = document.getElementById('prevBtn');
-  const $next = document.getElementById('nextBtn');
-  const $counter = document.getElementById('stepCounter');
+  const $modalBody = $modal.querySelector('.modal-body');
 
-  let currentGroup = 'normal';
-  let currentStep = 0;
-
-  function stepsOf(group) {
-    return Array.from($mSteps).filter(el => el.dataset.mgroup === group);
-  }
-  function renderSteps() {
-    const steps = stepsOf(currentGroup);
-    const total = steps.length;
-    if (currentStep >= total) currentStep = total - 1;
-    if (currentStep < 0) currentStep = 0;
-    $mSteps.forEach(el => {
-      const isMatch = el.dataset.mgroup === currentGroup && parseInt(el.dataset.mstep, 10) === currentStep;
-      el.classList.toggle('active', isMatch);
-    });
-    $counter.textContent = `${currentStep + 1} / ${total}`;
-    $prev.disabled = currentStep === 0;
-    if (currentStep === total - 1) {
-      $next.textContent = '닫기';
-    } else {
-      $next.textContent = '다음';
-    }
-  }
   function openModal() {
-    currentGroup = 'normal';
-    currentStep = 0;
-    $mTabs.forEach(t => t.classList.toggle('active', t.dataset.mtab === 'normal'));
-    renderSteps();
     $modal.classList.add('open');
+    if ($modalBody) $modalBody.scrollTop = 0;
   }
   function closeModal() { $modal.classList.remove('open'); }
 
@@ -693,22 +647,6 @@
   $modal.addEventListener('click', (e) => { if (e.target === $modal) closeModal(); });
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && $modal.classList.contains('open')) closeModal();
-  });
-
-  $mTabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      currentGroup = tab.dataset.mtab;
-      currentStep = 0;
-      $mTabs.forEach(t => t.classList.toggle('active', t === tab));
-      renderSteps();
-    });
-  });
-  $prev.addEventListener('click', () => { currentStep--; renderSteps(); });
-  $next.addEventListener('click', () => {
-    const total = stepsOf(currentGroup).length;
-    if (currentStep === total - 1) { closeModal(); return; }
-    currentStep++;
-    renderSteps();
   });
 })();
 </script>
