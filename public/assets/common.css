@@ -242,6 +242,27 @@ img { max-width: 100%; height: auto; display: block; }
 .cta-row strong { display: block; font-size: 14px; margin-bottom: 2px; }
 .cta-row small { color: var(--muted); font-size: 13px; }
 
+/* ===== SEO tag cloud (related keywords) ===== */
+.seo-tags {
+  margin: 52px 0 0;
+  padding: 18px 0 4px;
+  border-top: 1px solid var(--border);
+  font-size: 11px;
+  line-height: 1.8;
+  color: #b3b3b3;
+}
+.seo-tags strong {
+  display: block;
+  margin-bottom: 4px;
+  font-weight: 500;
+  color: #a1a1a1;
+  font-size: 11px;
+  letter-spacing: 0.02em;
+}
+.seo-tags p { margin: 0; color: #b3b3b3; word-break: keep-all; }
+.seo-tags a { color: #b3b3b3; text-decoration: none; }
+.seo-tags a:hover { color: var(--muted); text-decoration: none; }
+
 /* ===== Figure / image placeholder ===== */
 .figure {
   margin: 14px 0;
