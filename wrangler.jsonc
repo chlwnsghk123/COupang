@@ -1,7 +1,12 @@
 {
+  "$schema": "node_modules/wrangler/config-schema.json",
   "name": "videoembed",
   "compatibility_date": "2026-04-21",
+  "compatibility_flags": ["nodejs_compat"],
   "assets": {
-    "directory": "./"
+    "directory": "."
+  },
+  "observability": {
+    "enabled": true
   }
 }
