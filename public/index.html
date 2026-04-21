@@ -134,7 +134,10 @@
     font-size: 13px;
     color: var(--muted);
     margin-top: 10px;
+    min-height: 22px;
+    visibility: hidden;
   }
+  .info-row.show { visibility: visible; }
   .info-row b { color: var(--text); font-weight: 600; }
   .info-row .pill {
     background: var(--subtle);
@@ -149,9 +152,10 @@
     color: var(--accent);
     font-size: 13px;
     margin-top: 8px;
-    display: none;
+    min-height: 18px;
+    visibility: hidden;
   }
-  .error.show { display: block; }
+  .error.show { visibility: visible; }
   .output-wrap { position: relative; }
   pre.output {
     background: var(--subtle);
@@ -382,7 +386,7 @@
     </h2>
     <textarea id="inputCode" placeholder='&lt;iframe width=&quot;1085&quot; height=&quot;1133&quot; src=&quot;...wrAA5TeHZos&quot;...&gt;&lt;/iframe&gt;'></textarea>
     <div class="error" id="errorMsg">유튜브 코드를 못 찾았어요.</div>
-    <div class="info-row" id="infoRow" style="display:none;">
+    <div class="info-row" id="infoRow">
       <span><b>제목</b> <span id="videoTitle">-</span></span>
       <span><b>영상 ID</b> <span class="pill" id="videoId">-</span></span>
       <span><b>원본</b> <span id="origSize">-</span></span>
@@ -445,19 +449,19 @@
       <div class="modal-step">
         <h5>1. 영상 아래 공유 버튼</h5>
         <p>유튜브 영상 플레이어 하단의 <b>공유</b> 버튼을 눌러요.</p>
-        <img src="/assets/guide/1.png" alt="공유 버튼" onerror="this.outerHTML='<div class=\'ph\'>이미지 준비 중</div>'">
+        <img src="/assets/guide/1.png" width="638" height="182" alt="공유 버튼" onerror="this.outerHTML='<div class=\'ph\'>이미지 준비 중</div>'">
       </div>
 
       <div class="modal-step">
         <h5>2. 퍼가기 선택</h5>
         <p>팝업에서 <b>&lt;/&gt; 퍼가기</b>를 눌러요.</p>
-        <img src="/assets/guide/2.png" alt="퍼가기 선택" onerror="this.outerHTML='<div class=\'ph\'>이미지 준비 중</div>'">
+        <img src="/assets/guide/2.png" width="453" height="257" alt="퍼가기 선택" onerror="this.outerHTML='<div class=\'ph\'>이미지 준비 중</div>'">
       </div>
 
       <div class="modal-step">
         <h5>3. 복사 클릭</h5>
         <p>iframe 코드가 뜨면 오른쪽 아래 <b>복사</b>를 누르세요.</p>
-        <img src="/assets/guide/3.png" alt="iframe 코드 복사" onerror="this.outerHTML='<div class=\'ph\'>이미지 준비 중</div>'">
+        <img src="/assets/guide/3.png" width="423" height="477" alt="iframe 코드 복사" onerror="this.outerHTML='<div class=\'ph\'>이미지 준비 중</div>'">
       </div>
 
       <h4 class="modal-section">쇼츠</h4>
@@ -465,7 +469,7 @@
       <div class="modal-step">
         <h5>영상 위 우클릭 → 소스 코드 복사</h5>
         <p>쇼츠는 공유 메뉴에 퍼가기가 없어요. 영상 위에서 <b>마우스 우클릭</b> → <b>소스 코드 복사</b>.</p>
-        <img src="/assets/guide/4.png" alt="쇼츠 우클릭 메뉴" onerror="this.outerHTML='<div class=\'ph\'>이미지 준비 중</div>'">
+        <img src="/assets/guide/4.png" width="285" height="312" alt="쇼츠 우클릭 메뉴" onerror="this.outerHTML='<div class=\'ph\'>이미지 준비 중</div>'">
       </div>
 
       <p style="margin-top: 18px; padding: 12px 14px; background: var(--subtle); border-radius: 6px; font-size: 13px; color: #333;">
@@ -574,10 +578,10 @@
 
   function updateInfoUI() {
     if (!state.videoId) {
-      $infoRow.style.display = 'none';
+      $infoRow.classList.remove('show');
       return;
     }
-    $infoRow.style.display = '';
+    $infoRow.classList.add('show');
     $videoTitle.textContent = state.title || '(없음)';
     $videoId.textContent = state.videoId;
     $origSize.textContent = state.origWidth && state.origHeight
