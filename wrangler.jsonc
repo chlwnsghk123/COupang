@@ -3,8 +3,10 @@
   "name": "videoembed",
   "compatibility_date": "2026-04-21",
   "compatibility_flags": ["nodejs_compat"],
+  "main": "worker.js",
   "assets": {
-    "directory": "."
+    "directory": ".",
+    "binding": "ASSETS"
   },
   "observability": {
     "enabled": true
