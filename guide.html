@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>유튜브 영상 쿠팡 상세페이지 삽입 방법 (쇼츠 포함) | Video Embed</title>
+<meta name="description" content="유튜브 영상·쇼츠를 쿠팡 상세페이지에 넣는 법. iframe 복사부터 쿠팡 윙 붙여넣기까지 단계별로 정리.">
+<meta name="keywords" content="쿠팡 상세페이지 동영상, 유튜브 쿠팡 연동, 쿠팡 윙 동영상 삽입, 유튜브 쇼츠 쿠팡, 유튜브 iframe 복사, 자동재생 반복">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://video-embed.com/guide.html">
+
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Video Embed">
+<meta property="og:title" content="유튜브 영상 쿠팡 상세페이지 삽입 방법 (쇼츠 포함)">
+<meta property="og:description" content="유튜브 영상·쇼츠를 쿠팡 상세페이지에 넣는 법. iframe 복사부터 쿠팡 윙 붙여넣기까지.">
+<meta property="og:url" content="https://video-embed.com/guide.html">
+<meta property="og:image" content="https://video-embed.com/assets/og-image.svg">
+<meta property="og:locale" content="ko_KR">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="유튜브 영상 쿠팡 상세페이지 삽입 방법 (쇼츠 포함)">
+<meta name="twitter:description" content="유튜브 영상·쇼츠를 쿠팡 상세페이지에 넣는 법. iframe 복사부터 쿠팡 윙 붙여넣기까지.">
+<meta name="twitter:image" content="https://video-embed.com/assets/og-image.svg">
+
+<link rel="stylesheet" href="/assets/common.css">
+<style>
+  .step {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 22px;
+    margin: 14px 0;
+    background: #fff;
+  }
+  .step-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  .step-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 26px;
+    height: 26px;
+    padding: 0 8px;
+    border-radius: 999px;
+    background: var(--text);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .step h3 { margin: 0; font-size: 16px; }
+  .step p { margin: 0 0 10px; color: #333; }
+  .step ol, .step ul { margin: 0 0 10px; padding-left: 20px; color: #333; }
+  .step li { margin-bottom: 4px; }
+
+  .tip {
+    background: var(--subtle);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    font-size: 13px;
+    color: #333;
+    margin: 10px 0 0;
+  }
+  .tip b { color: var(--text); }
+
+  .tabs {
+    display: flex;
+    gap: 6px;
+    margin-top: 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .tab-btn {
+    background: none;
+    border: 0;
+    padding: 10px 14px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--muted);
+    cursor: pointer;
+    font-family: inherit;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+  }
+  .tab-btn.active {
+    color: var(--text);
+    border-bottom-color: var(--text);
+  }
+  .tab-panel { display: none; padding-top: 14px; }
+  .tab-panel.active { display: block; }
+
+  .toc {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 14px 18px;
+    background: #fff;
+    margin: 20px 0 30px;
+  }
+  .toc strong { display: block; font-size: 13px; color: var(--muted); margin-bottom: 6px; font-weight: 500; }
+  .toc ol { margin: 0; padding-left: 20px; font-size: 14px; }
+  .toc a { color: var(--text); }
+  .toc a:hover { color: var(--primary); }
+
+  .faq-item {
+    border-top: 1px solid var(--border);
+    padding: 14px 0;
+  }
+  .faq-item:last-child { border-bottom: 1px solid var(--border); }
+  .faq-q { font-weight: 600; margin: 0 0 6px; }
+  .faq-a { color: #444; margin: 0; font-size: 14px; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href="/" class="brand">
+      <span class="brand-mark">▶</span>
+      <span class="brand-name">Video Embed</span>
+    </a>
+    <nav class="site-nav" aria-label="주요 메뉴">
+      <a href="/">변환기</a>
+      <a href="/guide.html">사용법</a>
+      <a href="/about.html">소개</a>
+      <a href="mailto:Jundori1204@gmail.com">문의</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container page">
+  <h1 class="page-title">유튜브 영상 쿠팡 상세페이지에 넣는 법</h1>
+  <p class="page-subtitle">일반 영상 · 쇼츠 둘 다 됩니다. 5분이면 끝나요.</p>
+
+  <nav class="toc" aria-label="목차">
+    <strong>목차</strong>
+    <ol>
+      <li><a href="#why">왜 상세페이지에 영상을?</a></li>
+      <li><a href="#prep">유튜브 준비 — 업로드 &amp; 퍼가기 허용</a></li>
+      <li><a href="#copy">유튜브에서 코드 복사하기</a></li>
+      <li><a href="#convert">Video Embed에서 변환하기</a></li>
+      <li><a href="#paste">쿠팡 윙에 붙여넣기</a></li>
+      <li><a href="#tips">팁 &amp; 주의사항</a></li>
+      <li><a href="#faq">자주 묻는 질문</a></li>
+    </ol>
+  </nav>
+
+  <article class="prose">
+
+  <h2 id="why">왜 상세페이지에 영상을?</h2>
+  <p>글과 이미지만으로는 한계가 있어요. 영상이 들어가면 체류시간이 늘고, 제품을 실제로 쓰는 모습을 직접 보여줄 수 있죠. 경쟁 상품과 차별화되는 가장 간단한 방법이에요.</p>
+  <p>문제는 쿠팡 상세페이지가 <strong>HTML 편집</strong> 기반이라, 유튜브가 주는 기본 코드를 그대로 넣으면 자동재생이나 반복이 안 된다는 점. 그래서 코드를 살짝 바꿔줘야 해요.</p>
+
+  <h2 id="prep">1. 유튜브 준비</h2>
+
+  <div class="step">
+    <div class="step-head"><span class="step-badge">1</span><h3>유튜브 업로드</h3></div>
+    <p>먼저 유튜브에 영상이 있어야겠죠.</p>
+    <p>유튜브에 로그인 → 우측 상단 <b>[동영상 업로드]</b> → 영상 등록.</p>
+  </div>
+
+  <div class="step">
+    <div class="step-head"><span class="step-badge">2</span><h3>퍼가기 허용 설정</h3></div>
+    <p>유튜브 스튜디오 &gt; <b>[콘텐츠]</b> &gt; 영상 클릭 → <b>[더보기]</b> → <b>'퍼가기 허용'</b> 체크.</p>
+    <div class="tip"><b>중요</b> 이게 꺼져 있으면 쿠팡 상세페이지에서 영상이 안 떠요.</div>
+  </div>
+
+  <h2 id="copy">2. 유튜브에서 코드 복사하기</h2>
+  <p>일반 영상인지 쇼츠인지에 따라 방법이 달라요.</p>
+
+  <div class="tabs" role="tablist">
+    <button class="tab-btn active" role="tab" data-tab="normal">일반 영상</button>
+    <button class="tab-btn" role="tab" data-tab="shorts">쇼츠</button>
+  </div>
+
+  <div id="tab-normal" class="tab-panel active" role="tabpanel">
+    <div class="step">
+      <div class="step-head"><span class="step-badge">1</span><h3>영상 아래 <b>공유</b> 버튼 누르기</h3></div>
+      <figure class="figure">
+        <img src="/assets/guide/1.png" alt="유튜브 영상의 공유 버튼 위치" onerror="this.parentElement.classList.add('placeholder');this.remove();">
+        <figcaption>공유 버튼 위치 — <code>1.png</code></figcaption>
+      </figure>
+    </div>
+    <div class="step">
+      <div class="step-head"><span class="step-badge">2</span><h3>팝업에서 <b>퍼가기 &lt;/&gt;</b> 선택</h3></div>
+      <figure class="figure">
+        <img src="/assets/guide/2.png" alt="공유 메뉴에서 퍼가기 선택" onerror="this.parentElement.classList.add('placeholder');this.remove();">
+        <figcaption>공유 메뉴 &gt; 퍼가기 — <code>2.png</code></figcaption>
+      </figure>
+    </div>
+    <div class="step">
+      <div class="step-head"><span class="step-badge">3</span><h3>우측 하단 <b>복사</b> 클릭</h3></div>
+      <p>iframe 코드가 클립보드에 저장돼요.</p>
+      <figure class="figure">
+        <img src="/assets/guide/3.png" alt="iframe 코드 복사" onerror="this.parentElement.classList.add('placeholder');this.remove();">
+        <figcaption>iframe 코드 복사 — <code>3.png</code></figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <div id="tab-shorts" class="tab-panel" role="tabpanel">
+    <div class="step">
+      <div class="step-head"><span class="step-badge">쇼츠</span><h3>영상 위에서 <b>마우스 우클릭</b> → <b>소스 코드 복사</b></h3></div>
+      <p>쇼츠는 공유 메뉴에 퍼가기가 없어요. 대신 영상을 우클릭하면 "소스 코드 복사" 항목이 떠요.</p>
+      <figure class="figure">
+        <img src="/assets/guide/4.png" alt="쇼츠 우클릭 메뉴의 소스 코드 복사" onerror="this.parentElement.classList.add('placeholder');this.remove();">
+        <figcaption>쇼츠 우클릭 → 소스 코드 복사 — <code>4.png</code></figcaption>
+      </figure>
+      <div class="tip"><b>참고</b> 쇼츠도 일반 영상과 똑같이 처리돼요. 복사한 코드를 그대로 변환기에 붙이면 됩니다.</div>
+    </div>
+  </div>
+
+  <h2 id="convert">3. Video Embed에서 변환하기</h2>
+  <div class="step">
+    <div class="step-head"><span class="step-badge">1</span><h3>변환기에 <b>붙여넣기</b></h3></div>
+    <p>복사한 코드를 <a href="/">변환기</a> 입력칸에 붙여넣으면 제목과 영상 ID가 자동으로 잡혀요.</p>
+    <figure class="figure placeholder" data-pending>
+      <div>(이미지 준비 중 — <code>5.png</code>)</div>
+    </figure>
+  </div>
+  <div class="step">
+    <div class="step-head"><span class="step-badge">2</span><h3>사이즈 고르기</h3></div>
+    <ul>
+      <li><b>가로 16:9</b> — 780×439 (쿠팡 기본 너비)</li>
+      <li><b>4:3</b> — 780×585</li>
+      <li><b>세로·쇼츠</b> — 500×889</li>
+    </ul>
+    <p>직접 숫자를 넣어도 돼요. 비율 고정은 기본 켜져 있어요.</p>
+  </div>
+  <div class="step">
+    <div class="step-head"><span class="step-badge">3</span><h3>결과 코드 <b>복사</b></h3></div>
+    <p>3번 칸 오른쪽 위 <b>복사</b> 버튼 한 번이면 끝.</p>
+    <figure class="figure placeholder" data-pending>
+      <div>(이미지 준비 중 — <code>6.png</code>)</div>
+    </figure>
+  </div>
+
+  <h2 id="paste">4. 쿠팡 윙에 붙여넣기</h2>
+  <div class="step">
+    <div class="step-head"><span class="step-badge">1</span><h3>쿠팡 윙 → 상품관리 → <b>상세설명 편집</b></h3></div>
+    <figure class="figure placeholder" data-pending>
+      <div>(이미지 준비 중 — <code>7.png</code>)</div>
+    </figure>
+  </div>
+  <div class="step">
+    <div class="step-head"><span class="step-badge">2</span><h3>에디터에서 <b>HTML / 소스</b> 모드로 전환 후 붙여넣기</h3></div>
+    <p>일반 편집 모드에 붙이면 코드가 텍스트로 들어가요. 꼭 <b>HTML 편집 모드</b>에서 붙여넣어야 영상으로 보입니다.</p>
+    <figure class="figure placeholder" data-pending>
+      <div>(이미지 준비 중 — <code>8.png</code>)</div>
+    </figure>
+  </div>
+  <div class="step">
+    <div class="step-head"><span class="step-badge">3</span><h3>저장 → 미리보기에서 재생 확인</h3></div>
+    <p>영상이 뜨고 자동으로 재생되면 성공이에요.</p>
+    <figure class="figure placeholder" data-pending>
+      <div>(이미지 준비 중 — <code>9.png</code>)</div>
+    </figure>
+  </div>
+
+  <h2 id="tips">팁 &amp; 주의사항</h2>
+  <ul>
+    <li><b>자동재생엔 mute가 필수.</b> 브라우저 정책상 소리 켠 채 자동재생은 막혀 있어요. 변환기는 자동으로 mute 처리해요.</li>
+    <li><b>저작권 있는 영상은 본인 것이나 허가받은 것만</b> 써주세요.</li>
+    <li><b>모바일 환경</b>에서도 보기 편하게 가로 780 기준을 지키는 걸 추천해요. 쇼츠는 500×889 프리셋.</li>
+    <li><b>영상이 너무 크면</b> 상세페이지 로딩이 느려질 수 있어요. 한 페이지에 여러 개 넣는 건 비추.</li>
+    <li><b>쿠팡 정책 변경</b>으로 iframe이 막히는 경우가 드물게 있어요. 미리보기에서 꼭 확인해주세요.</li>
+  </ul>
+
+  <h2 id="faq">자주 묻는 질문</h2>
+
+  <div class="faq-item">
+    <p class="faq-q">쇼츠랑 일반 영상이 다르게 처리되나요?</p>
+    <p class="faq-a">아니요. Video Embed 내부에선 똑같이 처리돼요. 영상 ID만 쓰기 때문에 비율만 달라요 (쇼츠는 9:16 세로).</p>
+  </div>
+
+  <div class="faq-item">
+    <p class="faq-q">자동재생이 왜 안 되죠?</p>
+    <p class="faq-a">대부분 mute가 꺼져 있을 때예요. 변환기는 자동으로 mute를 넣어요. 그래도 안 되면 브라우저의 자동재생 차단 설정을 확인해보세요.</p>
+  </div>
+
+  <div class="faq-item">
+    <p class="faq-q">iframe이 쿠팡에서 막히진 않나요?</p>
+    <p class="faq-a">2026년 현재 쿠팡 윙 상세설명 HTML 모드에서 유튜브 iframe은 허용돼요. 정책이 바뀔 수 있으니 공지 확인 권장.</p>
+  </div>
+
+  <div class="faq-item">
+    <p class="faq-q">반복 재생이 안 되는데요?</p>
+    <p class="faq-a">loop 파라미터가 동작하려면 playlist 파라미터에도 같은 영상 ID가 들어가야 해요. 변환기 출력물엔 이미 둘 다 포함돼 있습니다.</p>
+  </div>
+
+  <div class="faq-item">
+    <p class="faq-q">영상 ID가 뭐예요?</p>
+    <p class="faq-a">유튜브 주소의 11자리 짧은 코드예요. 예: <code>z4a_sGDFmAA</code>. 변환기가 자동으로 찾아줍니다.</p>
+  </div>
+
+  <div class="faq-item">
+    <p class="faq-q">무료인가요?</p>
+    <p class="faq-a">네. 로그인도 없어요. 붙여넣고 복사만 하면 끝.</p>
+  </div>
+
+  </article>
+
+  <aside class="cta-row">
+    <div class="cta-text">
+      <strong>준비 끝났어요</strong>
+      <small>지금 변환기로 돌아가서 코드 만들어보세요.</small>
+    </div>
+    <a href="/" class="btn btn-primary">변환기로 가기 →</a>
+  </aside>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <p class="copyright">© 2026 Video Embed</p>
+    <nav class="footer-nav" aria-label="하단 메뉴">
+      <a href="/privacy.html">개인정보처리방침</a>
+      <span class="sep">·</span>
+      <a href="/terms.html">이용약관</a>
+      <span class="sep">·</span>
+      <a href="mailto:Jundori1204@gmail.com">문의</a>
+    </nav>
+    <p class="contact"><a href="mailto:Jundori1204@gmail.com">Jundori1204@gmail.com</a></p>
+  </div>
+</footer>
+
+<script>
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const tab = btn.dataset.tab;
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b === btn));
+      document.querySelectorAll('.tab-panel').forEach(p => {
+        p.classList.toggle('active', p.id === 'tab-' + tab);
+      });
+    });
+  });
+</script>
+</body>
+</html>
